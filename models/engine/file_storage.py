@@ -21,8 +21,8 @@ class FileStorage:
             if isinstance(cls, str):
                 cls = eval(cls)
             store = self.__objects.items()
-            cdict = {key: val for key, val in store if instance(val, cls)}
-            return cdict
+            dicts = {key: val for key, val in store if instance(val, cls)}
+            return dicts
 
         return self.__objects
 
