@@ -22,10 +22,10 @@ class DBStorage:
 
     def __init__(self):
         """ Initializes DBStorage """
-        user = getenv("HBNB_MYSQL_USER")
-        pwd = getenv("HBNB_MYSQL_PWD")
-        host = getenv("HBNB_MYSQL_HOST")
-        name = getenv("HBNB_MYSQL_DB")
+        db_user = getenv("HBNB_MYSQL_USER")
+        db_pwd = getenv("HBNB_MYSQL_PWD")
+        db_host = getenv("HBNB_MYSQL_HOST")
+        db_name = getenv("HBNB_MYSQL_DB")
 
         db_url = f"mysql+mysqldb://{db_user}:{db_pwd}@{db_host}/{db_name}"
         self.__engine = create_engine(db_url, pool_pre_ping=True)
