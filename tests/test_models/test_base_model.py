@@ -6,6 +6,7 @@ import datetime
 from uuid import UUID
 import json
 import os
+import pep8
 
 
 class test_basemodel(unittest.TestCase):
@@ -26,6 +27,11 @@ class test_basemodel(unittest.TestCase):
             os.remove('file.json')
         except:
             pass
+    def test_pep8(self):
+        """unittest for style"""
+        style = pep8.StyleGuide(quiet=True)
+        pycode = style.check_files(["models/city.py"])
+        self.assertEqual(pycode.total_errors, 0, "fix pep8")
 
     def test_default(self):
         """ """
@@ -97,3 +103,30 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+    def test_dbbase_doc(self):
+        """tests docstrings"""
+        doc = [
+            BaseModel,
+            BaseModel.__init__,
+            BaseModel.save,
+            BaseModel.to_dict,
+            BaseModel.delete,
+            BaseModel.__str__,
+            ]
+        for objects in doc:
+            self.assertTrue(hasattr(objects, "__doc__"),
+                            f"{objects.__name__} missing docstring")
+
+    def test_db_attribute(self):
+        """tests for attributes"""
+        attributes = {
+            "id": str,
+            "created_at": datetime,
+            "updated_at": datetime,
+            }
+        for attribute, attr_type in attributes.items():
+            sekf.assertIsInstance(getattr(self.base, attribute), attr_type,
+                                  f"Attribute {attribute} has wrong type")
+if __name__ == "__main__":
+    unittest.main()
