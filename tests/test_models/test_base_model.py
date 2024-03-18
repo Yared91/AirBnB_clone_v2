@@ -128,5 +128,7 @@ class test_basemodel(unittest.TestCase):
         for attribute, attr_type in attributes.items():
             sekf.assertIsInstance(getattr(self.base, attribute), attr_type,
                                   f"Attribute {attribute} has wrong type")
+
+
 if __name__ == "__main__":
     unittest.main()

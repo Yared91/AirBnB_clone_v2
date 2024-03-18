@@ -47,5 +47,6 @@ class test_Amenity(test_basemodel):
         """tests if amenity is the subclass of basemodel"""
         assert issubclass(Amenity, BaseModel)
 
+
 if __name__ == "__main__":
     unittest.main()

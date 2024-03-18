@@ -52,5 +52,6 @@ class test_City(test_basemodel):
         """tests if city is a subclass of basemodel"""
         assert issubclass(City, BaseModel)
 
+
 if __name__ == "__main__":
     unittest.main()
