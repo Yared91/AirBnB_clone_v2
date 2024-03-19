@@ -7,6 +7,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
+from models import tot_storage
 
 class Review(BaseModel, Base):
     """ Review class to store review information """

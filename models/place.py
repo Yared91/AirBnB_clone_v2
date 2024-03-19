@@ -14,7 +14,7 @@ from sqlalchemy import String
 from sqlalchemy.sql.schema import Table
 from sqlalchemy.orm import relationship
 
-created_table = Table(
+place_amenity = Table(
         "place_amenity",
         Base.metadata,
         Column("place_id", String(60), ForeignKey("place_id"),
