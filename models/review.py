@@ -6,7 +6,7 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
-
+from sqlalchemy.sql.schema import ForeignKey
 
 class Review(BaseModel, Base):
     """ Review class to store review information """

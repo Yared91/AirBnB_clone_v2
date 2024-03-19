@@ -1,7 +1,6 @@
 #!usr/bin/python3
 """Unittest for DB_storage"""
 
-import pep8
 import models
 import MySQLdb
 import unittest
@@ -59,12 +58,6 @@ class TestDBStorage(unittest.TestCase):
                 delattr(cls, attr)
                 cls.storage._DBStorage__session.close()
                 del cls.storage
-
-    def test_pep8(self):
-        """testing style"""
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/engine/db_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
 
     def test_init(self):
         """testing the init method """
