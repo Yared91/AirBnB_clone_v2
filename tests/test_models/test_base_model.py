@@ -35,6 +35,7 @@ class test_basemodel(unittest.TestCase):
 
     def test_init(self):
         """unittest for initialization of basemodel"""
+        self.assertIsInstance(self.value(), BaseModel)
         if self.value is not BaseModel:
             self.assertIsInstance(self.value(), Base)
         else:
@@ -42,7 +43,7 @@ class test_basemodel(unittest.TestCase):
 
     def test_default(self):
         """ testing default method"""
-        i = self.value
+        i = self.value()
         self.assertEqual(type(i), self.value)
 
     def test_kwargs(self):
