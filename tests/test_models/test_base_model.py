@@ -116,18 +116,13 @@ class test_basemodel(unittest.TestCase):
             ]
         for objects in doc:
             self.assertTrue(hasattr(objects, "__doc__"),
-                            f"{objects.__name__} missing docstring")
+                    f"{objects.__name__} missing docstring")
 
     def test_db_attribute(self):
         """tests for attributes"""
-        attributes = {
-            "id": str,
-            "created_at": datetime,
-            "updated_at": datetime,
-            }
-        for attribute, attr_type in attributes.items():
-            sekf.assertIsInstance(getattr(self.base, attribute), attr_type,
-                                  f"Attribute {attribute} has wrong type")
+        self.assertEqual(str, type(self.base.id))
+        self.assertEqual(datetime, type(self.base.created_at))
+        self.assertEqual(datetime, type(self.base.updated_at))
 
 
 if __name__ == "__main__":
