@@ -60,6 +60,9 @@ class test_basemodel(unittest.TestCase):
         copy.update({1: 2})
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
+	
+	 @unittest.skipIf(
+	     os.getenv('HBNB_TYPE_STORAGE') == 'db', 'FileStorage test')
 
     def test_save(self):
         """ Testing save """
@@ -112,6 +115,11 @@ class test_basemodel(unittest.TestCase):
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
 
+	@unittest.skipIf(
+	    os.getenv('HBNB_TYPE_STORAGE') == 'db', 'FileStorage test')	
+
+
+
     def test_dbbase_doc(self):
         """tests docstrings"""
         doc = [
@@ -125,6 +133,17 @@ class test_basemodel(unittest.TestCase):
         for objects in doc:
             self.assertTrue(hasattr(objects, "__doc__"),
                     f"{objects.__name__} missing docstring")
+
+   def test_delete(self):
+	   """testing the delete method"""
+		   from models import Storage
+		   instance = self.values()
+		   instance.save()
+
+		   self.assertTrue(instance, storage.all().values())
+	           instance.delete()
+	           self.assertFalse(instance, storage.all().values())
+
 
 
 if __name__ == "__main__":
