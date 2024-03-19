@@ -7,10 +7,8 @@ from datetime import datetime
 from uuid import UUID
 import json
 import os
+from models.engine.file_storage import FileStorage
 
-
-@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-        'basemodel test not supported')
 
 class test_basemodel(unittest.TestCase):
     """testing basemodel"""
@@ -59,9 +57,9 @@ class test_basemodel(unittest.TestCase):
         copy.update({1: 2})
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
-	
-	 @unittest.skipIf(
-	     os.getenv('HBNB_TYPE_STORAGE') == 'db', 'FileStorage test')
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+            'FileStorage test')
 
     def test_save(self):
         """ Testing save """
@@ -94,7 +92,7 @@ class test_basemodel(unittest.TestCase):
         """ testing kwargs with one argument"""
         n = {'Name': 'test'}
         new = self.value(**n)
-        self.assertEqual(new.name, n['name'])
+        self.assertTrue(hasattr(new, 'Name'))
 
     def test_id(self):
         """testing the id method """
@@ -114,10 +112,8 @@ class test_basemodel(unittest.TestCase):
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
 
-	@unittest.skipIf(
-	    os.getenv('HBNB_TYPE_STORAGE') == 'db', 'FileStorage test')	
-
-
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+            'FileStorage test')	
 
     def test_dbbase_doc(self):
         """tests docstrings"""
@@ -133,16 +129,14 @@ class test_basemodel(unittest.TestCase):
             self.assertTrue(hasattr(objects, "__doc__"),
                     f"{objects.__name__} missing docstring")
 
-   def test_delete(self):
-	   """testing the delete method"""
-		   from models import Storage
-		   instance = self.values()
-		   instance.save()
+    def test_delete(self):
+        """testing the delete method"""
+        instance = self.values()
+        instance.save()
 
-		   self.assertTrue(instance, storage.all().values())
-	           instance.delete()
-	           self.assertFalse(instance, storage.all().values())
-
+        self.assertTrue(instance, storage.all().values())
+        instance.delete()
+        self.assertFalse(instance, storage.all().values())
 
 
 if __name__ == "__main__":

@@ -4,9 +4,6 @@ from tests.test_models.test_base_model import test_basemodel
 from models.city import City
 import os
 
-@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-        'basemodel test not supported')
-
 
 class test_City(test_basemodel):
     """unittest for City"""
@@ -20,12 +17,14 @@ class test_City(test_basemodel):
     def test_state_id(self):
         """unittest state id"""
         new = self.value()
-        self.assertEqual(type(new.state_id), str)
+        self.assertEqual(type(new.state_id),
+                str if os.getenv('HBNB_TYPE_STORAGE') != 'db' else type(None))
 
     def test_name(self):
         """unittest name """
         new = self.value()
-        self.assertEqual(type(new.name), str)
+        self.assertEqual(type(new.name),
+                str if os.getenv('HBNB_TYPE_STORAGE') != 'db' else type(None))
 
 class TestCity(unittest.TestCase):
     """testing the city method"""
