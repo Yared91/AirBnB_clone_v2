@@ -159,7 +159,4 @@ class TestDBStorage(unittest.TestCase):
 
     @unittest.skipIf(type(models.storage) == FileStorage,
             "Testing FileStorage")
-
-
-if __name__ == '__main__':
-    unittest.main()
+    """testing the reload method is type FileStorage"""
