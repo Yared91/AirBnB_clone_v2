@@ -14,9 +14,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
+
 class DBStorage:
     """It represents DBStorage engine"""
 
+    storage = getenv('HBNB_TYPE_STORAGE')
     __engine = None
     __session = None
 

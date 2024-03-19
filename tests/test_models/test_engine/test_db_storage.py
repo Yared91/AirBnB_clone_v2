@@ -19,13 +19,15 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.engine.base import Engine
 
+
 class TestDBStorage(unittest.TestCase):
     """ Unittest for DBStorage"""
+    storage = getenv('HBNB_TYPE_STORAGE')
 
     @classmethod
     def setUpClass(cls):
         """ starting the DBStorage testing"""
-        if type(modles.storage) == DBStorage:
+        if type(models.storage) == DBStorage:
             cls.storage = DBStorage()
             Base.metadata.create_all(cls.storage._DBStorage__engine)
             Session = sessionmaker(bind=cls.storage._DBStorage__engine)
@@ -69,17 +71,17 @@ class TestDBStorage(unittest.TestCase):
 
         for method in methods:
             self.assertIsNotNone(getattr(DBStorage, method).__doc__)
-        if type(models.storage) != FileStorage:
-            """skip test"""
-            self.skipTest("Testing FileStorage")
+
+    @unittest.skipIf(type(models.storage) == FileStorage,
+            "Testing FileStorage")
 
     def test_all(self):
         """ testing all methods"""
         self.assertIsInstance(self.storage.all(), dict)
         self.assertEqual(len(self.storage.all()), 6)
 
-        if type(models.storage) != FileStorage:
-            self.skipTest("Testing FileStorage")
+    @unittest.skipIf(type(models.storage) == FileStorage,
+            "Testing FileStorage")
 
     def test_new(self):
         """testing the new method"""
@@ -88,8 +90,8 @@ class TestDBStorage(unittest.TestCase):
         add_state = list(self.storage._DBStorage__session.new)
         self.assertIn(new_state, add_state)
 
-        if type(models.storage) != FileStorage:
-            self.skipTest("Testing FileStorage")
+    @unittest.skipIf(type(models.storage) == FileStorage,
+            "Testing FileStorage")
 
     def test_save(self):
         """testing the save method"""
@@ -112,8 +114,8 @@ class TestDBStorage(unittest.TestCase):
         self.assertEqual(state.id, fetch[0][0])
         curser.close()
 
-        if type(models.storage) != FileStorage:
-            self.skipTest("Testing FileStorage")
+    @unittest.skipIf(type(models.storage) == FileStorage,
+            "Testing FileStorage")
 
     def test_delete(self):
         """testing the delete method"""
@@ -125,8 +127,8 @@ class TestDBStorage(unittest.TestCase):
         lists = list(self.storage._DBStorage__session.deleted)
         self.assertIn(delete_st, lists)
 
-        if type(models.storage) != FileStorage:
-            self.skipTest("Testing FileStorage")
+    @unittest.skipIf(type(models.storage) == FileStorage,
+            "Testing FileStorage")
 
     def test_dbstorage_methods(self):
         """testing the core DBStorage methods exist"""
@@ -137,8 +139,8 @@ class TestDBStorage(unittest.TestCase):
             self.assertTrue(hasattr(DBStorage, method),
                     f"Method {method} not found in DBStorage")
 
-        if type(models.storage) != FileStorage:
-            self.skipTest("Testing FileStorage")
+    @unittest.skipIf(type(models.storage) == FileStorage,
+            "Testing FileStorage")
 
     def test_dbstorage_attributes(self):
         """Testing that DBStorage has expected attributes."""
@@ -155,6 +157,9 @@ class TestDBStorage(unittest.TestCase):
         new_session.close()
         self.storage._DBStorage__session = old_session
 
+    @unittest.skipIf(type(models.storage) == FileStorage,
+            "Testing FileStorage")
+
 
 if __name__ == '__main__':
-    unittest.main()	       
+    unittest.main()

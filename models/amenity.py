@@ -5,7 +5,6 @@ from models.base_model import BaseModel
 from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
-from models import tot_storage
 
 class Amenity(BaseModel, Base):
     """Represents the Amenity in sql"""

@@ -8,7 +8,6 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
-from models import tot_storage
 
 class State(BaseModel, Base):
     """ State class """

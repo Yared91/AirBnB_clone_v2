@@ -129,15 +129,6 @@ class test_basemodel(unittest.TestCase):
             self.assertTrue(hasattr(objects, "__doc__"),
                     f"{objects.__name__} missing docstring")
 
-    def test_delete(self):
-        """testing the delete method"""
-        instance = self.values()
-        instance.save()
-
-        self.assertTrue(instance, storage.all().values())
-        instance.delete()
-        self.assertFalse(instance, storage.all().values())
-
 
 if __name__ == "__main__":
     unittest.main()

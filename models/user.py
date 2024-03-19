@@ -5,7 +5,7 @@ from models.base_model import BaseModel
 from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
-from models import tot_storage
+
 
 class User(BaseModel, Base):
     """This class defines a user for mySql database"""
