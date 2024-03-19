@@ -12,7 +12,6 @@ import os
 @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
         'basemodel test not supported')
 
-
 class test_basemodel(unittest.TestCase):
     """testing basemodel"""
 
@@ -90,7 +89,7 @@ class test_basemodel(unittest.TestCase):
 
     def test_kwargs_one(self):
         """ testing kwargs with one argument"""
-        n = {'name': 'test'}
+        n = {'Name': 'test'}
         new = self.value(**n)
         self.assertEqual(new.name, n['name'])
 
