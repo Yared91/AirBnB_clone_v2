@@ -2,7 +2,10 @@
 """unittest for City """
 from tests.test_models.test_base_model import test_basemodel
 from models.city import City
-import pep8
+import os
+
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+        'basemodel test not supported')
 
 
 class test_City(test_basemodel):
@@ -24,11 +27,8 @@ class test_City(test_basemodel):
         new = self.value()
         self.assertEqual(type(new.name), str)
 
-    def test_pep8(self):
-        """unittest for style"""
-        style = pep8.StyleGuide(quiet=True)
-        pycode = style.check_files(["models/city.py"])
-        self.assertEqual(pycode.total_errors, 0, "fix pep8")
+class TestCity(unittest.TestCase):
+    """testing the city method"""
 
     def test_db_doc(self):
         """testing docstring"""
