@@ -52,5 +52,11 @@ class TestConsole(unittest.TestCase):
 	     with patch('sys.stdout', new=StringIO()) as fb:
 		  self.assertTrue(self.console.onecmd("EOF"))
 
+	def test_emptyline(self):
+		"""testing empty entry"""
+		with patch('sys.stdout', new=StringIO()) as fb:
+			self.console.onecmd("\n")
+			self.assertEqual('', fb.getvalue())
+
 if __name__ == "__main__":
    unittest.main()
