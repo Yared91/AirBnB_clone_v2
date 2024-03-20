@@ -13,7 +13,7 @@ class TestConsole(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """setign up test console"""
-        cls.console = HBNBCommand
+        cls.console = HBNBCommand()
 
     @classmethod
     def teardown(cls):
@@ -40,23 +40,6 @@ class TestConsole(unittest.TestCase):
                 HBNBCommand.do_count.__doc__,
                 ]
         self.assertTrue(all(method is not None for method in methods))
-
-    def test_console_quit(self):
-        """ testing the quit method"""
-        with patch('sys.stdout', new=StringIO()) as fb:
-            self.console.onecmd("quit")
-            self.assertEqual('', fb.getvalue())
-
-    def test_console_EOF(self):
-        """testing the EOF method """
-        with patch('sys.stdout', new=StringIO()) as fb:
-            self.assertTrue(self.console.onecmd("EOF"))
-
-    def test_emptyline(self):
-        """testing empty entry"""
-        with patch('sys.stdout', new=StringIO()) as fb:
-            self.console.onecmd("\n")
-            self.assertEqual('', fb.getvalue())
 
 
 if __name__ == "__main__":

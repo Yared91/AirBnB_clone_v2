@@ -22,8 +22,7 @@ class State(BaseModel, Base):
         def cities(self):
             """ list down related cities"""
             citys = []
-	    for city in models.storage.all("City").value():
-		    if city.state_id == self.id:
-		        citys.append(city)
-	    return citys
-
+            for city in models.storage.all("City").value():
+                if city.state_id == self.id:
+                    citys.append(city)
+            return citys
