@@ -21,7 +21,9 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """ list down related cities"""
-            store = models.storage.all(City).values()
+            citys = []
+	    for city in models.storage.all("City").value():
+		    if city.state_id == self.id:
+		        citys.append(city)
+	    return citys
 
-            citys = [city for City in store if city.state_id == self.id]
-            return citys
