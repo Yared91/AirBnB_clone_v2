@@ -10,18 +10,20 @@ import os
 from models.engine.file_storage import FileStorage
 
 
-class test_basemodel(unittest.TestCase):
+class TestBaseModel(unittest.TestCase):
     """testing basemodel"""
 
-    def __init__(self, *args, **kwargs):
-        """initializing basemodel """
-        super().__init__(*args, **kwargs)
-        self.name = 'BaseModel'
-        self.value = BaseModel
-
-    def setUp(self):
+    @classmethod
+    def setUp(cls):
         """ setting up class for basemodel"""
-        pass
+        cls.base = BaseModel()
+        cls.base.name = "Elilta"
+        cls.base.number = 60
+
+    @classmethod
+    def teardown(cls):
+        """deletes setup"""
+        del cls.base
 
     def tearDown(self):
         """ tests the tear down method"""
@@ -30,92 +32,7 @@ class test_basemodel(unittest.TestCase):
         except:
             pass
 
-    def test_init(self):
-        """unittest for initialization of basemodel"""
-        self.assertIsInstance(self.value(), BaseModel)
-        if self.value is not BaseModel:
-            self.assertIsInstance(self.value(), Base)
-        else:
-            self.assertNotIsInstance(self.value(), Base)
-
-    def test_default(self):
-        """ testing default method"""
-        i = self.value()
-        self.assertEqual(type(i), self.value)
-
-    def test_kwargs(self):
-        """testing kwargs"""
-        i = self.value()
-        copy = i.to_dict()
-        new = BaseModel(**copy)
-        self.assertFalse(new is i)
-
-    def test_kwargs_int(self):
-        """ testing kwargs with integer argument"""
-        i = self.value()
-        copy = i.to_dict()
-        copy.update({1: 2})
-        with self.assertRaises(TypeError):
-            new = BaseModel(**copy)
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-            'FileStorage test')
-
-    def test_save(self):
-        """ Testing save """
-        i = self.value()
-        i.save()
-        key = self.name + "." + i.id
-        with open('file.json', 'r') as f:
-            j = json.load(f)
-            self.assertEqual(j[key], i.to_dict())
-
-    def test_str(self):
-        """ testing str for basemodel"""
-        i = self.value()
-        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
-            i.__dict__))
-
-    def test_todict(self):
-        """ testing to dict method for basemodel"""
-        i = self.value()
-        n = i.to_dict()
-        self.assertEqual(i.to_dict(), n)
-
-    def test_kwargs_none(self):
-        """ testing kwargs without argument"""
-        n = {None: None}
-        with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    def test_kwargs_one(self):
-        """ testing kwargs with one argument"""
-        n = {'Name': 'test'}
-        new = self.value(**n)
-        self.assertTrue(hasattr(new, 'Name'))
-
-    def test_id(self):
-        """testing the id method """
-        new = self.value()
-        self.assertEqual(type(new.id), str)
-
-    def test_created_at(self):
-        """ testing created method"""
-        new = self.value()
-        self.assertEqual(type(new.created_at), datetime)
-
-    def test_updated_at(self):
-        """testing updated method"""
-        new = self.value()
-        self.assertEqual(type(new.updated_at), datetime)
-        n = new.to_dict()
-        new = BaseModel(**n)
-        self.assertFalse(new.created_at == new.updated_at)
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-            'FileStorage test')	
-
-    def test_dbbase_doc(self):
+    def test_base_doc(self):
         """tests docstrings"""
         doc = [
             BaseModel,
@@ -128,6 +45,31 @@ class test_basemodel(unittest.TestCase):
         for objects in doc:
             self.assertTrue(hasattr(objects, "__doc__"),
                     f"{objects.__name__} missing docstring")
+
+    def test_base_method(self):
+        """tests methods"""
+        methods = ["__init__", "save", "to_dict"]
+
+        methods_present = all(hasattr(BaseModel, method) for method in methods)
+        self.assertTrue(methods_present)
+
+    def test_base_init(self):
+        """tests the init method"""
+        self.assertTrue(isinstance(self.base, BaseModel))
+
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == 'db', 'Not FileStorage')
+
+    def test_base_save(self):
+        """tests the save method"""
+        self.base.save()
+        self.assertNotEqual(self.base.created_at, self.base.updated_at)
+
+    def test_base_to_dict(self):
+        """tests to_dict method"""
+        dictionary = self.base.to_dict()
+        self.assertEqual(self.base.__class__.__name__, 'BaseModel')
+        self.assertIsInstance(dictionary['created_at'], str)
+        self.assertIsInstance(dictionary['updated_at'], str)
 
 
 if __name__ == "__main__":

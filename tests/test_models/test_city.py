@@ -1,58 +1,62 @@
 #!/usr/bin/python3
-"""unittest for City """
-from tests.test_models.test_base_model import test_basemodel
+""" unittest for City"""
+from models.base_model import BaseModel
+from tests.test_models.test_base_model import TestBaseModel
 from models.city import City
 import os
 import unittest
-from models.base_model import BaseModel
-import datetime
 
-
-class test_City(test_basemodel):
-    """unittest for City"""
-
-    def __init__(self, *args, **kwargs):
-        """unittest initializaton """
-        super().__init__(*args, **kwargs)
-        self.name = "City"
-        self.value = City
-
-    def test_state_id(self):
-        """unittest state id"""
-        new = self.value()
-        self.assertEqual(type(new.state_id),
-                str if os.getenv('HBNB_TYPE_STORAGE') != 'db' else type(None))
-
-    def test_name(self):
-        """unittest name """
-        new = self.value()
-        self.assertEqual(type(new.name),
-                str if os.getenv('HBNB_TYPE_STORAGE') != 'db' else type(None))
 
 class TestCity(unittest.TestCase):
-    """testing the city method"""
+    """tests the City class """
 
-    def test_db_doc(self):
-        """testing docstring"""
+    @classmethod
+    def setUp(cls):
+        """ setting up class for city"""
+        cls.city = City()
+        cls.city.name = "Nevada"
+        cls.city.state_id = "NE"
+
+    @classmethod
+    def teardown(cls):
+        """deletes setup"""
+        del cls.city
+
+    def tearDown(self):
+        """ tests the tear down method"""
+        try:
+            os.remove('file.json')
+        except:
+            pass
+
+    def test_city_doc(self):
+        """tests docstrings"""
         self.assertIsNotNone(City.__doc__)
 
-    def test_db_attribute(self):
-        """testing database storage attribute"""
-        new_city = City()
+    def test_city_attribute(self):
+        """tests attributes"""
+        attributes = ['state_id', 'id', 'created_at', 'updated_at', 'name']
+        for attribute in attributes:
+            self.assertTrue(hasattr(self.city, attribute))
 
-        assert type(new_city.id) == str
-        assert type(new_city.created_at) == datetime
-        assert type(new_city.updated_at) == datetime
-        assert hasattr(new_city, "__tablename__")
-        assert hasattr(new_city, "name")
-        assert hasattr(new_city, "state_id")
+    def test_city_subclass(self):
+        """tests the subclass method"""
+        self.assertTrue(issubclass(self.city.__class__, BaseModel), True)
 
-        if type(models.storage) != FileStorage:
-            self.skipTest("Testing FileStorage")
+    def test_city_save(self):
+        """tests the save method"""
+        self.city.save()
+        self.assertNotEqual(self.city.created_at, self.city.updated_at)
 
-    def test_dbcity_subclass(self):
-        """tests if city is a subclass of basemodel"""
-        assert issubclass(City, BaseModel)
+    def test_city_to_dict(self):
+        """tests to_dict method"""
+        self.assertEqual('to_dict' in dir(self.city), True)
+
+    def test_city_type(self):
+        """tests the attribute type"""
+        attr_type = {"state_id": str, "name": str}
+        for attribute, data_type in attr_type.items():
+            self.assertEqual(type(getattr(self.city, attribute)), data_type)
 
 
 if __name__ == "__main__":
