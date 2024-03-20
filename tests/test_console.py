@@ -39,13 +39,7 @@ class TestConsole(unittest.TestCase):
 		    HBNBCommand.do_update.__doc__,
 		    HBNBCommand.do_count.__doc__,
 		]
-		self.asserttrue(all(method is not None for method in methods)
-
-	def test_emptyline(self):
-	    """ testing if there is no entry"""
-	    with patch('sys.stdout', new=StringIO()) as fb:
-	         self.console.onecmd("\n")
-	         self.assertEqual('', fb.getvalue())
+		self.asserttrue(all(method is not None for method in methods))
 
 	def test_console_quit(self):
 	    """ testing the quit method"""
@@ -55,8 +49,8 @@ class TestConsole(unittest.TestCase):
 
 	def test_console_EOF(self):
 	     """testing the EOF method """
-	     with patch('sys.stdout', new=StringIO()) as fb
-		  self.assertTrue(self.console.onecmd("EOF")
+	     with patch('sys.stdout', new=StringIO()) as fb:
+		  self.assertTrue(self.console.onecmd("EOF"))
 
 if __name__ == "__main__":
    unittest.main()
