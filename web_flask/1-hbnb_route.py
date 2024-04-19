@@ -14,6 +14,7 @@ app = Flask(__name__)
 def hello_hbnb():
     return "Hello HBNB!"
 
+
 @app.route("/hbnb", methods=['GET'])
 def hbnb():
     return "HBNB"
