@@ -36,11 +36,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """
-        Query all objects of the given class
-        If cls is None, query all types of objects and
-        returns dictionary of the queried classes
-        """
+        """Query all objects of the given clas"""
 
         if cls in None:
             objects = []
