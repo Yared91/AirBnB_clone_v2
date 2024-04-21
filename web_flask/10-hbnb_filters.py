@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
-script that starts a Flask web application
-Your web application must be listening on 0.0.0.0, port 5000
+Initializes a Flask web application
+must be listening on 0.0.0.0, port 5000
 Routes:
     /hbnb_filters
 """
@@ -15,17 +15,17 @@ app = Flask(__name__)
 
 @app.route("/hbnb_filters", strict_slashes=False)
 def hbnb_filter():
-    """Display a HTML page like 6-index.html"""
-    st = storage.all("State")
-    am = storage.all("Amenity")
-    return render_template("10-hbnb_filters.html", st=st, am=am)
+    """Defines the hbnb filter"""
+    stat = storage.all("State")
+    amen = storage.all("Amenity")
+    return render_template("10-hbnb_filters.html", stat=stat, amen=amen)
 
 
 @app.teardown_appcontext
-def teardown(exception):
-    """Deletes SQLAlchemy session"""
+def teardown(excep):
+    """Tears down the SQLAlchemy session"""
     storage.close()
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+    app.run(host='0.0.0.0')

@@ -1,10 +1,7 @@
 #!/usr/bin/python3
 """
-script that starts a Flask web application
-Your web application must be listening on 0.0.0.0, port 5000
-must remove the current SQLAlchemy Session:
-    Declare a method to handle @app.teardown_appcontext
-    Call in this method storage.close()
+Initializes a Flask web application
+listening on 0.0.0.0, port 5000
 Route:
     /states_list
 """
@@ -18,16 +15,16 @@ app = Flask(__name__)
 
 @app.route("/states_list",  strict_slashes=False)
 def states_cities():
-    """Displays an HTML page with list of all State in DBStorage"""
-    state_list = storage.all("State").values()
-    return render_template("7-states_list.html", state_list=state_list)
+    """Defines an HTML page with list of all State in DBStorage"""
+    st_lt = storage.all("State").values()
+    return render_template("7-states_list.html", st_lt=st_lt)
 
 
 @app.teardown_appcontext
-def teardown(exception):
-    """remove the current SQLAlchemy Session"""
+def teardown(excep):
+    """Tears down the SQLAlchemy Session"""
     storage.close()
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+    app.run(host='0.0.0.0')
