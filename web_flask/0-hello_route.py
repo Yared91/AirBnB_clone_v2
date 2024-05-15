@@ -10,7 +10,7 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/", methods=['GET'])
+@app.route("/airbnb-onepage/", methods=['GET'])
 def hello_hbnb():
     return "Hello HBNB!"
 
